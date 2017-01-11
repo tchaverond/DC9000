@@ -49,14 +49,14 @@ class Board :
 
 
 		for i in range (0,self.height,2) :
-			for j in [0,2,6,8] :
-				self.grid[i][j] = 1 + int(j/5)
-			self.grid[i][4] = 0
-
-		for i in range (1,self.height,2) :
 			for j in [1,3,7,9] :
 				self.grid[i][j] = 1 + int(j/5)
 			self.grid[i][5] = 0
+
+		for i in range (1,self.height,2) :
+			for j in [0,2,6,8] :
+				self.grid[i][j] = 1 + int(j/5)
+			self.grid[i][4] = 0
 
 		"""
 		for i in [0,2,4,6,8] :
