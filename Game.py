@@ -47,7 +47,6 @@ class Board :
 	# putting all pieces at their starting places
 	def init_board (self) :
 
-
 		for i in range (0,self.height,2) :
 			for j in [1,3,7,9] :
 				self.grid[i][j] = 1 + int(j/5)
@@ -105,6 +104,16 @@ class Board :
 		"""
 		
 		#print (self)
+
+
+	def init_custom (self, config) :
+
+		print (config)
+		# WIP
+		#self.game = list(config[0])
+		#self.queens = list(config[1])
+		#self.player = list(config[2])
+
 
 
 

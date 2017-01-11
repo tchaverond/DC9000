@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*
 
 from tkinter import*
-import time
 import os
+import tkinter.filedialog as filedialog
+import tkinter.messagebox as messagebox
 
 import Game
 
@@ -13,7 +14,7 @@ class Layout:
 	def __init__(self):
 
 		self.fenetre = Tk()
-		self.fenetre.title("Super Crazy Checkers Deluxe 9000 (v0.8)")
+		self.fenetre.title("Deluxe Checkers 9000 (v1.0)")
 
 
 		self.h = self.fenetre.winfo_screenheight() * 0.85
@@ -84,9 +85,33 @@ class Layout:
 		controls.add(reset_button)
 
 
+
+		# menu
+		menubar = Menu(self.fenetre)
+
+		gamemenu = Menu(menubar, tearoff=0)
+		gamemenu.add_command(label="Reset",command=self.reset)
+		gamemenu.add_command(label="Import",command=self.import_cfg)
+		gamemenu.add_command(label="Export",command=self.export_cfg)
+		gamemenu.add_command(label="Quit",command=self.quit)
+		menubar.add_cascade(label="Game",menu=gamemenu)
+
+		self.fenetre.config(menu=menubar)
+
+
+
 		world.add(self.playzone)
 		world.add(controls)
 		world.pack()
+
+
+
+		# import/export options
+		self.file_options = {}
+		self.file_options['defaultextension'] = '.dc9'
+		self.file_options['initialdir'] = '.\DC9000\Configs'
+		self.file_options['filetypes'] = [('DC9000 files', '.dc9'), ('all files', '.*')]
+		self.file_options['parent'] = self.fenetre
 
 
 		# event listener for left clicks on board
@@ -95,6 +120,33 @@ class Layout:
 
 		# drawing the board for the first time
 		self.draw_grid_2(self.game.grid)
+
+
+
+	def import_cfg (self) :
+
+		filename = filedialog.askopenfilename(**self.file_options)
+
+		if filename :
+			fin = open(filename,"r")
+			self.game.init_custom(fin.readlines())
+
+		else :
+			messagebox.showerror("Deluxe Checkers 9000","No input file provided.")
+
+
+	def export_cfg (self) :
+
+		self.file_options['initialfile'] = "config1"
+		filename = filedialog.asksaveasfilename(**self.file_options)
+
+		if filename :
+			fout = open(filename,"w")
+			fout.write("\n".join([str(self.game.grid),str(self.game.queens),str(self.game.player)]))
+			fout.close()
+
+		else :
+			messagebox.showerror("Deluxe Checkers 9000","No file name provided.")
 
 
 
@@ -169,7 +221,7 @@ class Layout:
 
 
 	# method called by a left click on board
-	def left_click(self, event) :
+	def left_click (self, event) :
 
 		# getting where the click has happened
 		if self.autorot.get() == 1 :
@@ -267,7 +319,12 @@ class Layout:
 	def reset (self) :
 
 		self.fenetre.destroy()
-		os.system("python Game_interface.py")
+		os.system("python Interface.py")
+
+
+	def quit (self) :
+
+		self.fenetre.destroy()
 
 
 
