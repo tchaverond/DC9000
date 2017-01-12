@@ -30,6 +30,10 @@ class Layout:
 		self.plz_w = self.plz_h						# board width
 
 
+		# grid design
+		self.design = "old"
+
+
 		# graphical parameters
 		# self.cs = 59 				# square size (height and width)
 		# self.x_gap = 6 			# x gap between 2 squares
@@ -98,6 +102,11 @@ class Layout:
 		gamemenu.add_command(label="Quit",command=self.quit)
 		menubar.add_cascade(label="Game",menu=gamemenu)
 
+		designmenu = Menu(menubar, tearoff=0)
+		designmenu.add_command(label="SCCD9",command=self.old_design)
+		designmenu.add_command(label="Wood",command=self.wood_design)
+		menubar.add_cascade(label="Design",menu=designmenu)
+
 		self.fenetre.config(menu=menubar)
 
 
@@ -156,50 +165,102 @@ class Layout:
 
 
 
+	def old_design (self) :
+		self.design = "old"
+		self.refresh()
+
+	def wood_design (self) :
+		self.design = "wood"
+		self.refresh()
+
+
+
 	# drawing the grid with player 1 below
 	def draw_grid_1 (self, grid, queens = []) :
 
 		self.playzone.delete("all")
-		for i in range(len(grid)) :
-			for j in range(len(grid)) :
-				if grid[i][j] == -1 :
-					self.playzone.create_oval(self.plz_w-(self.cs*i+self.x_gap),self.plz_h-(self.cs*j+self.y_gap),self.plz_w-(self.cs*i+self.x_gap+self.size),self.plz_h-(self.cs*j+self.y_gap+self.size),outline='white')
-				else :
-					self.playzone.create_oval(self.plz_w-(self.cs*i+self.x_gap),self.plz_h-(self.cs*j+self.y_gap),self.plz_w-(self.cs*i+self.x_gap+self.size),self.plz_h-(self.cs*j+self.y_gap+self.size),outline='black')
-				
-				if grid[i][j] == 1 :
-					self.playzone.create_oval(self.plz_w-(self.cs*i+self.x_gap+self.size/4),self.plz_h-(self.cs*j+self.y_gap+self.size/4),self.plz_w-(self.cs*i+self.x_gap+3*self.size/4),self.plz_h-(self.cs*j+self.y_gap+3*self.size/4),outline='#d00',fill='#d00')
-					if [i,j] in queens :
-						self.playzone.create_oval(self.plz_w-(self.cs*i+self.x_gap+self.size/16),self.plz_h-(self.cs*j+self.y_gap+self.size/16),self.plz_w-(self.cs*i+self.x_gap+15*self.size/16),self.plz_h-(self.cs*j+self.y_gap+15*self.size/16),outline='#d00',fill='#d00')
 
-				if grid[i][j] == 2 :
-					self.playzone.create_oval(self.plz_w-(self.cs*i+self.x_gap+self.size/4),self.plz_h-(self.cs*j+self.y_gap+self.size/4),self.plz_w-(self.cs*i+self.x_gap+3*self.size/4),self.plz_h-(self.cs*j+self.y_gap+3*self.size/4),outline='#080',fill='#080')
-					if [i,j] in queens :
-						self.playzone.create_oval(self.plz_w-(self.cs*i+self.x_gap+self.size/16),self.plz_h-(self.cs*j+self.y_gap+self.size/16),self.plz_w-(self.cs*i+self.x_gap+15*self.size/16),self.plz_h-(self.cs*j+self.y_gap+15*self.size/16),outline='#080',fill='#080')
+		if self.design == "old" :
 
+			for i in range(len(grid)) :
+				for j in range(len(grid)) :
+					if grid[i][j] != -1 :
+						self.playzone.create_oval(self.plz_w-(self.cs*i+self.x_gap),self.plz_h-(self.cs*j+self.y_gap),self.plz_w-(self.cs*i+self.x_gap+self.size),self.plz_h-(self.cs*j+self.y_gap+self.size),outline='black')
+					
+					if grid[i][j] == 1 :
+						self.playzone.create_oval(self.plz_w-(self.cs*i+self.x_gap+self.size/4),self.plz_h-(self.cs*j+self.y_gap+self.size/4),self.plz_w-(self.cs*i+self.x_gap+3*self.size/4),self.plz_h-(self.cs*j+self.y_gap+3*self.size/4),outline='#d00',fill='#d00')
+						if [i,j] in queens :
+							self.playzone.create_oval(self.plz_w-(self.cs*i+self.x_gap+self.size/16),self.plz_h-(self.cs*j+self.y_gap+self.size/16),self.plz_w-(self.cs*i+self.x_gap+15*self.size/16),self.plz_h-(self.cs*j+self.y_gap+15*self.size/16),outline='#d00',fill='#d00')
+
+					if grid[i][j] == 2 :
+						self.playzone.create_oval(self.plz_w-(self.cs*i+self.x_gap+self.size/4),self.plz_h-(self.cs*j+self.y_gap+self.size/4),self.plz_w-(self.cs*i+self.x_gap+3*self.size/4),self.plz_h-(self.cs*j+self.y_gap+3*self.size/4),outline='#080',fill='#080')
+						if [i,j] in queens :
+							self.playzone.create_oval(self.plz_w-(self.cs*i+self.x_gap+self.size/16),self.plz_h-(self.cs*j+self.y_gap+self.size/16),self.plz_w-(self.cs*i+self.x_gap+15*self.size/16),self.plz_h-(self.cs*j+self.y_gap+15*self.size/16),outline='#080',fill='#080')
+
+		elif self.design == "wood" :
+
+			for i in range(len(grid)) :
+				for j in range(len(grid)) :
+					if grid[i][j] == -1 :
+						self.playzone.create_rectangle(self.plz_w-self.cs*i,self.plz_h-self.cs*j,self.plz_w-self.cs*(i+1),self.plz_h-self.cs*(j+1),fill='#fa3',outline='#000')
+					else :
+						self.playzone.create_rectangle(self.plz_w-self.cs*i,self.plz_h-self.cs*j,self.plz_w-self.cs*(i+1),self.plz_h-self.cs*(j+1),fill='#850',outline='#000')
+					
+					if grid[i][j] == 1 :
+						self.playzone.create_oval(self.plz_w-(self.cs*i+self.x_gap/2+self.size/8),self.plz_h-(self.cs*j+self.y_gap/2+self.size/6),self.plz_w-(self.cs*i+self.x_gap/2+5*self.size/6),self.plz_h-(self.cs*j+self.y_gap/2+3*self.size/4),outline='#000',fill='#210')
+						self.playzone.create_oval(self.plz_w-(self.cs*i+self.x_gap/2+self.size/6),self.plz_h-(self.cs*j+self.y_gap/2+self.size/4),self.plz_w-(self.cs*i+self.x_gap/2+5*self.size/6),self.plz_h-(self.cs*j+self.y_gap/2+3*self.size/4),outline='#000',fill='#320')
+						if [i,j] in queens :
+							self.playzone.create_oval(self.plz_w-(self.cs*i+self.x_gap/2+self.size/6),self.plz_h-(self.cs*j+self.y_gap/2+self.size/4),self.plz_w-(self.cs*i+self.x_gap/2+5*self.size/6),self.plz_h-(self.cs*j+self.y_gap/2+3*self.size/4),outline='#000',fill='#320')
+
+					if grid[i][j] == 2 :
+						self.playzone.create_oval(self.plz_w-(self.cs*i+self.x_gap/2+self.size/8),self.plz_h-(self.cs*j+self.y_gap/2+self.size/6),self.plz_w-(self.cs*i+self.x_gap/2+5*self.size/6),self.plz_h-(self.cs*j+self.y_gap/2+3*self.size/4),outline='#000',fill='#ed8')
+						self.playzone.create_oval(self.plz_w-(self.cs*i+self.x_gap/2+self.size/6),self.plz_h-(self.cs*j+self.y_gap/2+self.size/4),self.plz_w-(self.cs*i+self.x_gap/2+5*self.size/6),self.plz_h-(self.cs*j+self.y_gap/2+3*self.size/4),outline='#000',fill='#fe9')
+						if [i,j] in queens :
+							self.playzone.create_oval(self.plz_w-(self.cs*i+self.x_gap/2+self.size/6),self.plz_h-(self.cs*j+self.y_gap/2+self.size/4),self.plz_w-(self.cs*i+self.x_gap/2+5*self.size/6),self.plz_h-(self.cs*j+self.y_gap/2+3*self.size/4),outline='#000',fill='#fe9')
 
 
 	# drawing the grid with player 2 below
 	def draw_grid_2 (self, grid, queens = []) :
 
 		self.playzone.delete("all")
-		for i in range(len(grid)) :
-			for j in range(len(grid)) :
-				if grid[i][j] == -1 :
-					self.playzone.create_oval(self.cs*i+self.x_gap,self.cs*j+self.y_gap,self.cs*i+self.x_gap+self.size,self.cs*j+self.y_gap+self.size,outline='white')
-				else :
-					self.playzone.create_oval(self.cs*i+self.x_gap,self.cs*j+self.y_gap,self.cs*i+self.x_gap+self.size,self.cs*j+self.y_gap+self.size,outline='black')
-				
-				if grid[i][j] == 1 :
-					self.playzone.create_oval(self.cs*i+self.x_gap+self.size/4,self.cs*j+self.y_gap+self.size/4,self.cs*i+self.x_gap+3*self.size/4,self.cs*j+self.y_gap+3*self.size/4,outline='#d00',fill='#d00')
-					if [i,j] in queens :
-						self.playzone.create_oval(self.cs*i+self.x_gap+self.size/16,self.cs*j+self.y_gap+self.size/16,self.cs*i+self.x_gap+15*self.size/16,self.cs*j+self.y_gap+15*self.size/16,outline='#d00',fill='#d00')
 
-				if grid[i][j] == 2 :
-					self.playzone.create_oval(self.cs*i+self.x_gap+self.size/4,self.cs*j+self.y_gap+self.size/4,self.cs*i+self.x_gap+3*self.size/4,self.cs*j+self.y_gap+3*self.size/4,outline='#080',fill='#080')
-					if [i,j] in queens :
-						self.playzone.create_oval(self.cs*i+self.x_gap+self.size/16,self.cs*j+self.y_gap+self.size/16,self.cs*i+self.x_gap+15*self.size/16,self.cs*j+self.y_gap+15*self.size/16,outline='#080',fill='#080')
+		if self.design == "old" :
+		
+			for i in range(len(grid)) :
+				for j in range(len(grid)) :
+					if grid[i][j] != -1 :
+						self.playzone.create_oval(self.cs*i+self.x_gap,self.cs*j+self.y_gap,self.cs*i+self.x_gap+self.size,self.cs*j+self.y_gap+self.size,outline='black')
+					
+					if grid[i][j] == 1 :
+						self.playzone.create_oval(self.cs*i+self.x_gap+self.size/4,self.cs*j+self.y_gap+self.size/4,self.cs*i+self.x_gap+3*self.size/4,self.cs*j+self.y_gap+3*self.size/4,outline='#d00',fill='#d00')
+						if [i,j] in queens :
+							self.playzone.create_oval(self.cs*i+self.x_gap+self.size/16,self.cs*j+self.y_gap+self.size/16,self.cs*i+self.x_gap+15*self.size/16,self.cs*j+self.y_gap+15*self.size/16,outline='#d00',fill='#d00')
 
+					if grid[i][j] == 2 :
+						self.playzone.create_oval(self.cs*i+self.x_gap+self.size/4,self.cs*j+self.y_gap+self.size/4,self.cs*i+self.x_gap+3*self.size/4,self.cs*j+self.y_gap+3*self.size/4,outline='#080',fill='#080')
+						if [i,j] in queens :
+							self.playzone.create_oval(self.cs*i+self.x_gap+self.size/16,self.cs*j+self.y_gap+self.size/16,self.cs*i+self.x_gap+15*self.size/16,self.cs*j+self.y_gap+15*self.size/16,outline='#080',fill='#080')
+
+		elif self.design == "wood" :
+
+			for i in range(len(grid)) :
+				for j in range(len(grid)) :
+					if grid[i][j] == -1 :
+						self.playzone.create_rectangle(self.cs*i,self.cs*j,self.cs*(i+1),self.cs*(j+1),fill='#fa3',outline='#000')
+					else :
+						self.playzone.create_rectangle(self.cs*i,self.cs*j,self.cs*(i+1),self.cs*(j+1),fill='#850',outline='#000')
+					
+					if grid[i][j] == 1 :
+						self.playzone.create_oval(self.cs*i+self.x_gap/2+self.size/6,self.cs*j+self.y_gap/2+self.size/4,self.cs*i+self.x_gap/2+7*self.size/8,self.cs*j+self.y_gap/2+5*self.size/6,outline='#000',fill='#210')
+						self.playzone.create_oval(self.cs*i+self.x_gap/2+self.size/6,self.cs*j+self.y_gap/2+self.size/4,self.cs*i+self.x_gap/2+5*self.size/6,self.cs*j+self.y_gap/2+3*self.size/4,outline='#000',fill='#320')
+						if [i,j] in queens :
+							self.playzone.create_oval(self.cs*i+self.x_gap+self.size/16,self.cs*j+self.y_gap+self.size/16,self.cs*i+self.x_gap+15*self.size/16,self.cs*j+self.y_gap+15*self.size/16,outline='#000',fill='#320')
+
+					if grid[i][j] == 2 :
+						self.playzone.create_oval(self.cs*i+self.x_gap/2+self.size/6,self.cs*j+self.y_gap/2+self.size/4,self.cs*i+self.x_gap/2+7*self.size/8,self.cs*j+self.y_gap/2+5*self.size/6,outline='#000',fill='#ed8')
+						self.playzone.create_oval(self.cs*i+self.x_gap/2+self.size/6,self.cs*j+self.y_gap/2+self.size/4,self.cs*i+self.x_gap/2+5*self.size/6,self.cs*j+self.y_gap/2+3*self.size/4,outline='#000',fill='#fe9')
+						if [i,j] in queens :
+							self.playzone.create_oval(self.cs*i+self.x_gap+self.size/16,self.cs*j+self.y_gap+self.size/16,self.cs*i+self.x_gap+15*self.size/16,self.cs*j+self.y_gap+15*self.size/16,outline='#000',fill='#fe9')
 
 
 	# drawing the cemetery (containing all pieces taken by the opponent)
@@ -211,17 +272,34 @@ class Layout:
 		green_taken = 20 - sum([i.count(2) for i in grid]) - len([1 for i in queens if grid[i[0]][i[1]] == 2])
 		
 		# drawing on 2 lines, for easier understanding
-		for i in range(red_taken) :
-			if i < 10 :
-				self.cemetery.create_oval(self.cemetery_cs*i+self.x_gap,self.y_gap,self.cemetery_cs*i+self.x_gap+self.cemetery_size,self.y_gap+self.cemetery_size,outline='#d00',fill='#d00')
-			else :
-				self.cemetery.create_oval(self.cemetery_cs*(i-10)+self.x_gap,self.cemetery_y_gap+self.y_gap,self.cemetery_cs*(i-10)+self.x_gap+self.cemetery_size,self.y_gap+self.cemetery_y_gap+self.cemetery_size,outline='#d00',fill='#d00')
+		if self.design == "old" :
+			for i in range(red_taken) :
+				if i < 10 :
+					self.cemetery.create_oval(self.cemetery_cs*i+self.x_gap,self.y_gap,self.cemetery_cs*i+self.x_gap+self.cemetery_size,self.y_gap+self.cemetery_size,outline='#d00',fill='#d00')
+				else :
+					self.cemetery.create_oval(self.cemetery_cs*(i-10)+self.x_gap,self.cemetery_y_gap+self.y_gap,self.cemetery_cs*(i-10)+self.x_gap+self.cemetery_size,self.y_gap+self.cemetery_y_gap+self.cemetery_size,outline='#d00',fill='#d00')
 
-		for i in range(green_taken) :
-			if i < 10 :
-				self.cemetery.create_oval(self.cemetery_cs*i+self.x_gap,self.y_gap+2*self.cemetery_y_gap,self.cemetery_cs*i+self.x_gap+self.cemetery_size,self.y_gap+2*self.cemetery_y_gap+self.cemetery_size,outline='#080',fill='#080')
-			else :
-				self.cemetery.create_oval(self.cemetery_cs*(i-10)+self.x_gap,self.y_gap+3*self.cemetery_y_gap,self.cemetery_cs*(i-10)+self.x_gap+self.cemetery_size,self.y_gap+3*self.cemetery_y_gap+self.cemetery_size,outline='#080',fill='#080')
+		elif self.design == "wood" :
+			for i in range(red_taken) :
+				if i < 10 :
+					self.cemetery.create_oval(self.cemetery_cs*i+self.x_gap,self.y_gap,self.cemetery_cs*i+self.x_gap+self.cemetery_size,self.y_gap+self.cemetery_size,outline='#000',fill='#320')
+				else :
+					self.cemetery.create_oval(self.cemetery_cs*(i-10)+self.x_gap,self.cemetery_y_gap+self.y_gap,self.cemetery_cs*(i-10)+self.x_gap+self.cemetery_size,self.y_gap+self.cemetery_y_gap+self.cemetery_size,outline='#000',fill='#320')
+
+
+		if self.design == "old" :
+			for i in range(green_taken) :
+				if i < 10 :
+					self.cemetery.create_oval(self.cemetery_cs*i+self.x_gap,self.y_gap+2*self.cemetery_y_gap,self.cemetery_cs*i+self.x_gap+self.cemetery_size,self.y_gap+2*self.cemetery_y_gap+self.cemetery_size,outline='#080',fill='#080')
+				else :
+					self.cemetery.create_oval(self.cemetery_cs*(i-10)+self.x_gap,self.y_gap+3*self.cemetery_y_gap,self.cemetery_cs*(i-10)+self.x_gap+self.cemetery_size,self.y_gap+3*self.cemetery_y_gap+self.cemetery_size,outline='#080',fill='#080')
+
+		elif self.design == "wood" :
+			for i in range(green_taken) :
+				if i < 10 :
+					self.cemetery.create_oval(self.cemetery_cs*i+self.x_gap,self.y_gap+2*self.cemetery_y_gap,self.cemetery_cs*i+self.x_gap+self.cemetery_size,self.y_gap+2*self.cemetery_y_gap+self.cemetery_size,outline='#000',fill='#fe9')
+				else :
+					self.cemetery.create_oval(self.cemetery_cs*(i-10)+self.x_gap,self.y_gap+3*self.cemetery_y_gap,self.cemetery_cs*(i-10)+self.x_gap+self.cemetery_size,self.y_gap+3*self.cemetery_y_gap+self.cemetery_size,outline='#000',fill='#fe9')
 
 
 
@@ -251,7 +329,6 @@ class Layout:
 														
 		else :											# else the player wants to move a piece
 			self.game.move(x,y)							# we call the "move" method
-
 
 		self.refresh()
 
@@ -284,9 +361,15 @@ class Layout:
 
 
 		if self.game.player == 1 :
-			self.player_now.set("Now playing : Red")
+			if self.design == "old" :
+				self.player_now.set("Now playing: Red")
+			elif self.design == "wood" :
+				self.player_now.set("Now playing: Black")
 		else :
-			self.player_now.set("Now playing : Green")
+			if self.design == "old" :
+				self.player_now.set("Now playing: Green")
+			elif self.design == "wood" :
+				self.player_now.set("Now playing: White")
 
 		self.check_end()
 
@@ -294,13 +377,19 @@ class Layout:
 
 	def highlight_piece_1 (self, coords) :
 
-		self.playzone.create_oval(self.plz_w-(self.cs*coords[0]+self.x_gap+self.size/6),self.plz_h-(self.cs*coords[1]+self.y_gap+self.size/6),self.plz_w-(self.cs*coords[0]+self.x_gap+5*self.size/6),self.plz_h-(self.cs*coords[1]+self.y_gap+5*self.size/6),outline='black')
+		if self.design == "old" :
+			self.playzone.create_oval(self.plz_w-(self.cs*coords[0]+self.x_gap+self.size/6),self.plz_h-(self.cs*coords[1]+self.y_gap+self.size/6),self.plz_w-(self.cs*coords[0]+self.x_gap+5*self.size/6),self.plz_h-(self.cs*coords[1]+self.y_gap+5*self.size/6),outline='black')
+		elif self.design == "wood" :
+			self.playzone.create_oval(self.plz_w-(self.cs*coords[0]+self.x_gap/2+23*self.size/24),self.plz_h-(self.cs*coords[1]+self.y_gap/2+self.size/12),self.plz_w-(self.cs*coords[0]+self.x_gap/2+self.size/24),self.plz_h-(self.cs*coords[1]+self.y_gap/2+5*self.size/6),outline='black',dash=(2,2))
 
 
 
 	def highlight_piece_2 (self, coords) :
 
-		self.playzone.create_oval(self.cs*coords[0]+self.x_gap+self.size/6,self.cs*coords[1]+self.y_gap+self.size/6,self.cs*coords[0]+self.x_gap+5*self.size/6,self.cs*coords[1]+self.y_gap+5*self.size/6,outline='black')
+		if self.design == "old" :
+			self.playzone.create_oval(self.cs*coords[0]+self.x_gap+self.size/6,self.cs*coords[1]+self.y_gap+self.size/6,self.cs*coords[0]+self.x_gap+5*self.size/6,self.cs*coords[1]+self.y_gap+5*self.size/6,outline='black')
+		elif self.design == "wood" :
+			self.playzone.create_oval(self.cs*coords[0]+self.x_gap/2+self.size/24,self.cs*coords[1]+self.y_gap/2+self.size/6,self.cs*coords[0]+self.x_gap/2+23*self.size/24,self.cs*coords[1]+self.y_gap/2+11*self.size/12,outline='black',dash=(2,2))
 
 
 
@@ -314,7 +403,10 @@ class Layout:
 			i = i+1
 
 		if end == True :
-			self.player_now.set("The green guy has won !")
+			if self.design == "old" :
+				self.player_now.set("Green player victory!")
+			elif self.design == "wood" :
+				self.player_now.set("White player victory!")
 
 		i = 0
 		end = True
@@ -324,7 +416,10 @@ class Layout:
 			i = i+1
 
 		if end == True :
-			self.player_now.set("The red guy has won !")
+			if self.design == "old" :
+				self.player_now.set("Red player victory!")
+			elif self.design == "wood" :
+				self.player_now.set("Black player victory!")
 
 
 
