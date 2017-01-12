@@ -1,10 +1,11 @@
 # -*- coding: utf-8 -*
 
 from tkinter import*
-import os
 import tkinter.filedialog as filedialog
 import tkinter.messagebox as messagebox
+import os
 import pickle
+import copy
 
 import Game
 
@@ -80,10 +81,10 @@ class Layout:
 		controls.add(check_autorot)
 
 
-		# reset button (hopefully will after be included in a menu)
-		reset_button = Button(controls,text="Restart",command=self.reset)
+		# cancel button
+		cancel_button = Button(controls,text="Cancel",command=self.cancel)
 
-		controls.add(reset_button)
+		controls.add(cancel_button)
 
 
 
@@ -126,6 +127,7 @@ class Layout:
 
 	def import_cfg (self) :
 
+		self.file_options['initialfile'] = ""
 		filename = filedialog.askopenfilename(**self.file_options)
 
 		if filename :
@@ -133,8 +135,7 @@ class Layout:
 			cfg = pickle.load(fin)
 			self.game.init_custom(cfg)
 			fin.close()
-			self.draw_grid_2(self.game.grid, self.game.queens)
-			self.draw_cemetery(self.game.grid,self.game.queens)
+			self.refresh()
 
 		else :
 			messagebox.showerror("Deluxe Checkers 9000","No input file provided.")
@@ -147,7 +148,7 @@ class Layout:
 
 		if filename :
 			fout = open(filename,"wb")
-			pickle.dump([self.game.grid,self.game.queens,self.game.player],fout)
+			pickle.dump([self.game.grid,self.game.queens,self.game.player,self.game.cur_turn],fout)
 			fout.close()
 
 		else :
@@ -252,6 +253,12 @@ class Layout:
 			self.game.move(x,y)							# we call the "move" method
 
 
+		self.refresh()
+
+
+
+	def refresh (self) :
+
 		# updating the drawing of the grid
 		if self.autorot.get() == 1 :
 			if self.game.player == 1 :
@@ -331,6 +338,21 @@ class Layout:
 
 		self.fenetre.destroy()
 
+
+	# cancels the last move done on board
+	def cancel (self) :
+
+		if self.game.history[1] != None :
+
+			self.game.grid = copy.deepcopy(self.game.history[0])
+
+			for i in range(len(self.game.history)-1) :
+				self.game.history[i] = copy.deepcopy(self.game.history[i+1])
+
+			self.game.history[len(self.game.history)-1] = None
+			self.game.end_turn()
+
+			self.refresh()
 
 
 	# (tkinter's mainloop)

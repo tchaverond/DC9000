@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*
 
+from heapq import*
+import copy
 
 
 class Board :
@@ -20,7 +22,10 @@ class Board :
 
 		self.queens = [] 				# contains coordinates of all queens on the board (as they follow special rules)
 
+		self.history = [None]*10         # list containing 5 previous moves
+
 		self.init_board() 				# putting all pieces at their starting places
+
 
 
 		# to check possible huffs
@@ -28,6 +33,10 @@ class Board :
 		self.last_moved = []
 		self.huff_done = False
 		self.possible_huff = []
+
+
+		# other variables (for informative purposes)
+		self.cur_turn = 0
 
 
 
@@ -45,15 +54,17 @@ class Board :
 	# putting all pieces at their starting places
 	def init_board (self) :
 
-		for i in range (0,self.height,2) :
+		for i in range(0,self.height,2) :
 			for j in [1,3,7,9] :
 				self.grid[i][j] = 1 + int(j/5)
 			self.grid[i][5] = 0
 
-		for i in range (1,self.height,2) :
+		for i in range(1,self.height,2) :
 			for j in [0,2,6,8] :
 				self.grid[i][j] = 1 + int(j/5)
 			self.grid[i][4] = 0
+
+		self.history[0] = self.grid
 
 		"""
 		for i in [0,2,4,6,8] :
@@ -109,6 +120,10 @@ class Board :
 		self.grid = config[0]
 		self.queens = config[1]
 		self.player = config[2]
+		self.cur_turn = config[3]
+
+		self.history = [None]*10
+		self.history[0] = self.grid
 
 
 
@@ -212,6 +227,13 @@ class Board :
 	# moving the selected piece on the board
 	def move_on_grid (self, x, y) :
 
+		# updating move history
+		h = len(self.history)-1
+		for i in range(h) :
+			self.history[h-i] = copy.deepcopy(self.history[h-i-1])
+		self.history[0] = copy.deepcopy(self.grid)
+
+
 		self.grid[x][y] = self.grid[self.highlight[0]][self.highlight[1]]   # moving the piece
 		self.grid[self.highlight[0]][self.highlight[1]] = 0					# and leaving a blank where it comes from
 
@@ -298,6 +320,8 @@ class Board :
 		self.takeovers = []
 		self.huff_done = False
 		self.play_again = False
+
+		self.cur_turn += 1
 
 		#print("Turn has ended.")
 
