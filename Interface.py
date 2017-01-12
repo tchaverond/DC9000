@@ -65,7 +65,6 @@ class Layout:
 
 		# label indicating the player whose turn it is
 		self.player_now = StringVar()
-		self.player_now.set("Now playing : Green")
 		label_player = Label(controls,textvariable=self.player_now,height=4)
 
 		controls.add(label_player)
@@ -130,7 +129,7 @@ class Layout:
 
 
 		# drawing the board for the first time
-		self.draw_grid_2(self.game.grid)
+		self.refresh()
 
 
 
