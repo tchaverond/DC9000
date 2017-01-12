@@ -4,6 +4,7 @@ from tkinter import*
 import os
 import tkinter.filedialog as filedialog
 import tkinter.messagebox as messagebox
+import pickle
 
 import Game
 
@@ -128,8 +129,12 @@ class Layout:
 		filename = filedialog.askopenfilename(**self.file_options)
 
 		if filename :
-			fin = open(filename,"r")
-			self.game.init_custom(fin.readlines())
+			fin = open(filename,"rb")
+			cfg = pickle.load(fin)
+			self.game.init_custom(cfg)
+			fin.close()
+			self.draw_grid_2(self.game.grid, self.game.queens)
+			self.draw_cemetery(self.game.grid,self.game.queens)
 
 		else :
 			messagebox.showerror("Deluxe Checkers 9000","No input file provided.")
@@ -141,8 +146,8 @@ class Layout:
 		filename = filedialog.asksaveasfilename(**self.file_options)
 
 		if filename :
-			fout = open(filename,"w")
-			fout.write("\n".join([str(self.game.grid),str(self.game.queens),str(self.game.player)]))
+			fout = open(filename,"wb")
+			pickle.dump([self.game.grid,self.game.queens,self.game.player],fout)
 			fout.close()
 
 		else :

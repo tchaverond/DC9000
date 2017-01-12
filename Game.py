@@ -10,8 +10,6 @@ class Board :
 		self.width = 10
 		self.grid = [[-1 for i in range(0,self.height,1)] for j in range(0,self.width,1)]
 
-		#self.init_board() 				# putting all pieces at their starting places
-
 
 		# variables holding the state of the game
 		self.player = 2 				# whose turn it is to play
@@ -108,11 +106,9 @@ class Board :
 
 	def init_custom (self, config) :
 
-		print (config)
-		# WIP
-		#self.game = list(config[0])
-		#self.queens = list(config[1])
-		#self.player = list(config[2])
+		self.grid = config[0]
+		self.queens = config[1]
+		self.player = config[2]
 
 
 
