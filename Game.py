@@ -22,7 +22,8 @@ class Board :
 
 		self.queens = [] 				# contains coordinates of all queens on the board (as they follow special rules)
 
-		self.history = [None]*10         # list containing 5 previous moves
+		self.history = [None]*10        # list containing 10 previous moves
+		self.playr_hist = [None]*10     # who played previous turns
 
 		self.init_board() 				# putting all pieces at their starting places
 
@@ -65,6 +66,7 @@ class Board :
 			self.grid[i][4] = 0
 
 		self.history[0] = self.grid
+		self.playr_hist[0] = 2
 
 		"""
 		for i in [0,2,4,6,8] :
@@ -123,7 +125,9 @@ class Board :
 		self.cur_turn = config[3]
 
 		self.history = [None]*10
-		self.history[0] = self.grid
+		self.history[0] = copy.deepcopy(self.grid)
+		self.playr_hist = [None]*10
+		self.playr_hist[0] = self.player
 
 
 
@@ -231,7 +235,10 @@ class Board :
 		h = len(self.history)-1
 		for i in range(h) :
 			self.history[h-i] = copy.deepcopy(self.history[h-i-1])
+			self.playr_hist[h-i] = self.playr_hist[h-i-1]
+
 		self.history[0] = copy.deepcopy(self.grid)
+		self.playr_hist[0] = self.player
 
 
 		self.grid[x][y] = self.grid[self.highlight[0]][self.highlight[1]]   # moving the piece
@@ -324,6 +331,20 @@ class Board :
 		self.cur_turn += 1
 
 		#print("Turn has ended.")
+
+
+
+	def cancel (self) :
+
+		self.grid = copy.deepcopy(self.history[0])
+		self.player = self.playr_hist[0]
+
+		for i in range(len(self.history)-1) :
+			self.history[i] = copy.deepcopy(self.history[i+1])
+			self.playr_hist[i] = self.playr_hist[i+1]
+
+		self.history[len(self.history)-1] = None
+		self.playr_hist[len(self.playr_hist)-1] = None
 
 
 

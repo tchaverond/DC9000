@@ -344,13 +344,7 @@ class Layout:
 
 		if self.game.history[1] != None :
 
-			self.game.grid = copy.deepcopy(self.game.history[0])
-
-			for i in range(len(self.game.history)-1) :
-				self.game.history[i] = copy.deepcopy(self.game.history[i+1])
-
-			self.game.history[len(self.game.history)-1] = None
-			self.game.end_turn()
+			self.game.cancel()
 
 			self.refresh()
 
