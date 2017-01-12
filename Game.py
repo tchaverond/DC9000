@@ -41,17 +41,6 @@ class Board :
 
 
 
-	def __repr__ (self) :
-
-		string = ["----------------------------------------------------------------------------------------------------------------------------------------------------------"]
-		string.append("\n")
-		for i in range(0,len(self.grid),1) :
-			string.append("\t".join([str(j) for j in self.grid[i]]))
-			string.append("\n")
-		string.append("----------------------------------------------------------------------------------------------------------------------------------------------------------")
-		return "".join(string)
-
-
 	# putting all pieces at their starting places
 	def init_board (self) :
 
@@ -68,53 +57,6 @@ class Board :
 		self.history[0] = self.grid
 		self.playr_hist[0] = 2
 
-		"""
-		for i in [0,2,4,6,8] :
-			for j in [0,2,4,6,8] :
-				self.grid[i][j] = 0
-		for i in [1,3,5,7,9] :
-			for j in [1,3,5,7,9] :
-				self.grid[i][j] = 0
-
-		self.grid[6][0] = 1
-		self.grid[9][1] = 1
-		for i in [0,4] :
-			self.grid[i][2] = 1
-		self.grid[9][3] = 1
-		self.grid[8][4] = 1
-		self.grid[9][5] = 1
-
-		for i in [2,6] :
-			self.grid[i][6] = 2
-		self.grid[1][7] = 2
-		self.grid[5][7] = 2
-		for i in [7,9] :
-			self.grid[i][9] = 2
-
-		self.queens = [[4,2],[5,7]]
-		"""
-
-		"""
-		for i in [0,2,4,6,8] :
-			for j in [0,2,4,6,8] :
-				self.grid[i][j] = 0
-		for i in [1,3,5,7,9] :
-			for j in [1,3,5,7,9] :
-				self.grid[i][j] = 0
-
-		for i in [0,2,6,8] :
-			self.grid[i][0] = 1
-		self.grid[7][7] = 1
-
-		self.grid[5][3] = 2
-		self.grid[5][5] = 2
-		for i in [0,2,4,8] :
-			self.grid[i][8] = 2
-		for i in [1,9] :
-			self.grid[i][9] = 2
-		"""
-		
-		#print (self)
 
 
 	def init_custom (self, config) :

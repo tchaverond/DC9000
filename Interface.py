@@ -345,7 +345,6 @@ class Layout:
 		if self.game.history[1] != None :
 
 			self.game.cancel()
-
 			self.refresh()
 
 
