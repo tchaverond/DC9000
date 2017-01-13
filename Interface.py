@@ -209,13 +209,15 @@ class Layout:
 						self.playzone.create_oval(self.plz_w-(self.cs*i+self.x_gap/2+self.size/8),self.plz_h-(self.cs*j+self.y_gap/2+self.size/6),self.plz_w-(self.cs*i+self.x_gap/2+5*self.size/6),self.plz_h-(self.cs*j+self.y_gap/2+3*self.size/4),outline='#000',fill='#210')
 						self.playzone.create_oval(self.plz_w-(self.cs*i+self.x_gap/2+self.size/6),self.plz_h-(self.cs*j+self.y_gap/2+self.size/4),self.plz_w-(self.cs*i+self.x_gap/2+5*self.size/6),self.plz_h-(self.cs*j+self.y_gap/2+3*self.size/4),outline='#000',fill='#320')
 						if [i,j] in queens :
-							self.playzone.create_oval(self.plz_w-(self.cs*i+self.x_gap/2+self.size/6),self.plz_h-(self.cs*j+self.y_gap/2+self.size/4),self.plz_w-(self.cs*i+self.x_gap/2+5*self.size/6),self.plz_h-(self.cs*j+self.y_gap/2+3*self.size/4),outline='#000',fill='#320')
+							self.playzone.create_oval(self.plz_w-(self.cs*i+self.x_gap/2+self.size/8),self.plz_h-(self.cs*j+self.y_gap/2+self.size/4),self.plz_w-(self.cs*i+self.x_gap/2+5*self.size/6),self.plz_h-(self.cs*j+self.y_gap/2+5*self.size/6),outline='#000',fill='#210')
+							self.playzone.create_oval(self.plz_w-(self.cs*i+self.x_gap/2+self.size/6),self.plz_h-(self.cs*j+self.y_gap/2+self.size/3),self.plz_w-(self.cs*i+self.x_gap/2+5*self.size/6),self.plz_h-(self.cs*j+self.y_gap/2+5*self.size/6),outline='#000',fill='#320')
 
 					if grid[i][j] == 2 :
 						self.playzone.create_oval(self.plz_w-(self.cs*i+self.x_gap/2+self.size/8),self.plz_h-(self.cs*j+self.y_gap/2+self.size/6),self.plz_w-(self.cs*i+self.x_gap/2+5*self.size/6),self.plz_h-(self.cs*j+self.y_gap/2+3*self.size/4),outline='#000',fill='#ed8')
 						self.playzone.create_oval(self.plz_w-(self.cs*i+self.x_gap/2+self.size/6),self.plz_h-(self.cs*j+self.y_gap/2+self.size/4),self.plz_w-(self.cs*i+self.x_gap/2+5*self.size/6),self.plz_h-(self.cs*j+self.y_gap/2+3*self.size/4),outline='#000',fill='#fe9')
 						if [i,j] in queens :
-							self.playzone.create_oval(self.plz_w-(self.cs*i+self.x_gap/2+self.size/6),self.plz_h-(self.cs*j+self.y_gap/2+self.size/4),self.plz_w-(self.cs*i+self.x_gap/2+5*self.size/6),self.plz_h-(self.cs*j+self.y_gap/2+3*self.size/4),outline='#000',fill='#fe9')
+							self.playzone.create_oval(self.plz_w-(self.cs*i+self.x_gap/2+self.size/8),self.plz_h-(self.cs*j+self.y_gap/2+self.size/4),self.plz_w-(self.cs*i+self.x_gap/2+5*self.size/6),self.plz_h-(self.cs*j+self.y_gap/2+5*self.size/6),outline='#000',fill='#ed8')
+							self.playzone.create_oval(self.plz_w-(self.cs*i+self.x_gap/2+self.size/6),self.plz_h-(self.cs*j+self.y_gap/2+self.size/3),self.plz_w-(self.cs*i+self.x_gap/2+5*self.size/6),self.plz_h-(self.cs*j+self.y_gap/2+5*self.size/6),outline='#000',fill='#fe9')
 
 
 	# drawing the grid with player 2 below
@@ -253,13 +255,15 @@ class Layout:
 						self.playzone.create_oval(self.cs*i+self.x_gap/2+self.size/6,self.cs*j+self.y_gap/2+self.size/4,self.cs*i+self.x_gap/2+7*self.size/8,self.cs*j+self.y_gap/2+5*self.size/6,outline='#000',fill='#210')
 						self.playzone.create_oval(self.cs*i+self.x_gap/2+self.size/6,self.cs*j+self.y_gap/2+self.size/4,self.cs*i+self.x_gap/2+5*self.size/6,self.cs*j+self.y_gap/2+3*self.size/4,outline='#000',fill='#320')
 						if [i,j] in queens :
-							self.playzone.create_oval(self.cs*i+self.x_gap+self.size/16,self.cs*j+self.y_gap+self.size/16,self.cs*i+self.x_gap+15*self.size/16,self.cs*j+self.y_gap+15*self.size/16,outline='#000',fill='#320')
+							self.playzone.create_oval(self.cs*i+self.x_gap/2+self.size/6,self.cs*j+self.y_gap/2+self.size/6,self.cs*i+self.x_gap/2+7*self.size/8,self.cs*j+self.y_gap/2+3*self.size/4,outline='#000',fill='#210')
+							self.playzone.create_oval(self.cs*i+self.x_gap/2+self.size/6,self.cs*j+self.y_gap/2+self.size/6,self.cs*i+self.x_gap/2+5*self.size/6,self.cs*j+self.y_gap/2+2*self.size/3,outline='#000',fill='#320')
 
 					if grid[i][j] == 2 :
 						self.playzone.create_oval(self.cs*i+self.x_gap/2+self.size/6,self.cs*j+self.y_gap/2+self.size/4,self.cs*i+self.x_gap/2+7*self.size/8,self.cs*j+self.y_gap/2+5*self.size/6,outline='#000',fill='#ed8')
 						self.playzone.create_oval(self.cs*i+self.x_gap/2+self.size/6,self.cs*j+self.y_gap/2+self.size/4,self.cs*i+self.x_gap/2+5*self.size/6,self.cs*j+self.y_gap/2+3*self.size/4,outline='#000',fill='#fe9')
 						if [i,j] in queens :
-							self.playzone.create_oval(self.cs*i+self.x_gap+self.size/16,self.cs*j+self.y_gap+self.size/16,self.cs*i+self.x_gap+15*self.size/16,self.cs*j+self.y_gap+15*self.size/16,outline='#000',fill='#fe9')
+							self.playzone.create_oval(self.cs*i+self.x_gap/2+self.size/6,self.cs*j+self.y_gap/2+self.size/6,self.cs*i+self.x_gap/2+7*self.size/8,self.cs*j+self.y_gap/2+3*self.size/4,outline='#000',fill='#ed8')
+							self.playzone.create_oval(self.cs*i+self.x_gap/2+self.size/6,self.cs*j+self.y_gap/2+self.size/6,self.cs*i+self.x_gap/2+5*self.size/6,self.cs*j+self.y_gap/2+2*self.size/3,outline='#000',fill='#fe9')
 
 
 	# drawing the cemetery (containing all pieces taken by the opponent)
